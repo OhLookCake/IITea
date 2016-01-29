@@ -6,7 +6,7 @@ img <- readJPEG("images/Map_Google_Grayscale.jpg")
 bgimg <- rasterGrob(img, interpolate=TRUE) 
 
 
-df <- read.csv("data//placelist.csv")
+df <- read.csv("data/placelist.csv")
 baseplot <- ggplot(data = df, aes(x = X, y = Y)) +
               annotation_custom(bgimg, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf) +
               xlim(0,2000) +
@@ -16,6 +16,10 @@ baseplot <- ggplot(data = df, aes(x = X, y = Y)) +
 
 baseplot + geom_point()
 
+baseplot + geom_point() +
+  annotate("text", x = df$X, y = df$Y -25, label = df$Text)
+
 baseplot +
   geom_point(color="#997766", fill="#997766", size=36, shape=21, alpha=0.3, show_guide=FALSE) +
-  geom_point(color="#4466DD", fill="#4466DD", size=18, shape=21, alpha=0.6, show_guide=FALSE)
+  geom_point(color="#4466DD", fill="#4466DD", size=18, shape=21, alpha=0.6, show_guide=FALSE) +
+
