@@ -8,11 +8,9 @@ setwd("C:/Projects/Data/Insight Datagiri/IITea")
 img <- readJPEG("images/Map_Google_Grayscale.jpg")
 bgimg <- rasterGrob(img, interpolate=TRUE)
 
-#df <- read.csv("data/placelist.csv", header=TRUE, colClasses=c("character", "character", "numeric", "numeric"))
-df <- read.csv("data/megalist.csv", header=TRUE, colClasses=c("character", "character",rep("numeric", 29)))
+df <- read.csv("data/placelist.csv", header=TRUE, colClasses=c("character", "character",rep("numeric", 29)))
 
-
-# 
+# Exploratory Stuff
 # baseplot <- ggplot(data = df, aes(x = X+OffsetX, y = Y+OffsetY)) +
 #   annotation_custom(bgimg, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf) +
 #   xlim(0,2000) +
@@ -22,11 +20,6 @@ df <- read.csv("data/megalist.csv", header=TRUE, colClasses=c("character", "char
 # 
 # baseplot + geom_point() +
 #   geom_text(aes(label = Text), size=3, hjust=-0.2, vjust=0.35)
-# 
-# 
-# baseplot + geom_point(aes(color = Text)) +
-#   theme(legend.position=c(.5, .5))
-# 
 # 
 # 
 # baseplot +
@@ -40,7 +33,7 @@ df <- read.csv("data/megalist.csv", header=TRUE, colClasses=c("character", "char
 
 
 # According to opening time
-startHour <- 6 
+startHour <- 8
 ctr <- 1
 for(hour in (startHour:(startHour+23)%%24)){
   currentlyOpen <- df[ ,paste0("X",hour)] > 0
@@ -76,7 +69,8 @@ for(hour in (startHour:(startHour+23)%%24)){
   
   if(sum(currentlyOpen) > 0){
     positionsplot +
-      geom_text(aes(label = Text), size=3, hjust=0.5, vjust=0.35)
+      geom_text(aes(label=Text,  x=X + OffsetX, y=Y + OffsetY), size=3, hjust=0.5, vjust=0.35)
+      # This will not plot on the screen, because it's not in the global scope. If needed, use print() to draw
   } else {
     positionsplot
   }
@@ -84,7 +78,7 @@ for(hour in (startHour:(startHour+23)%%24)){
   #ggsave(paste0("map", ctr, "_", hour*100, ".jpg"), path = "output", 
   #       scale = 1, width = 25.3, height = 30, units ="cm", dpi = 300) 
   
-  ggsave(paste0("map", str_pad(ctr, 2, side ="left", pad="0"), ".png"), path = "output",
+  ggsave(paste0("map", ctr, ".png"), path = "output",
          scale = 1, width = 25.3, height = 30, units ="cm", dpi = 300) 
   
     
