@@ -2,6 +2,7 @@ library(ggplot2)
 library(jpeg)
 library(grid)
 library(RColorBrewer)
+library(stringr)
 
 setwd("C:/Projects/Data/Insight Datagiri/IITea")
 img <- readJPEG("images/Map_Google_Grayscale.jpg")
@@ -40,9 +41,16 @@ df <- read.csv("data/megalist.csv", header=TRUE, colClasses=c("character", "char
 
 # According to opening time
 startHour <- 6 
-ctr <- 0
+ctr <- 1
 for(hour in (startHour:(startHour+23)%%24)){
   currentlyOpen <- df[ ,paste0("X",hour)] > 0
+  clockHour <- ((hour-1)%%12) + 1
+  clockTime <- paste0(ifelse(clockHour < 10, "0", ""),
+                      clockHour,
+                      " ",
+                      ifelse(hour==0, "midnight",
+                             ifelse(hour==12, "noon",
+                                    ifelse(hour<12, "am", "pm"))))
   
   if(sum(currentlyOpen) > 0){
     dfHour <- df[currentlyOpen, ]
@@ -62,7 +70,8 @@ for(hour in (startHour:(startHour+23)%%24)){
     geom_point(aes(color="#e22233"), size=24, shape=20, alpha=0.4, show_guide=TRUE) +
     scale_color_identity(name = 'Distance Walked in', guide = 'legend',labels = c('2 minutes', '1 minute')) +
     theme(legend.justification=c(0,0), legend.position=c(0,0)) +
-    guides(col = guide_legend(reverse = TRUE))
+    guides(col = guide_legend(reverse = TRUE)) +
+    annotate("text", x = 120, y = 450, label = clockTime, colour = "#5555aa", size=12)
   
   
   if(sum(currentlyOpen) > 0){
@@ -72,8 +81,12 @@ for(hour in (startHour:(startHour+23)%%24)){
     positionsplot
   }
   
-  ggsave(paste0("map", ctr, "_", hour, ".jpg"), path = "output", 
+  #ggsave(paste0("map", ctr, "_", hour*100, ".jpg"), path = "output", 
+  #       scale = 1, width = 25.3, height = 30, units ="cm", dpi = 300) 
+  
+  ggsave(paste0("map", str_pad(ctr, 2, side ="left", pad="0"), ".png"), path = "output",
          scale = 1, width = 25.3, height = 30, units ="cm", dpi = 300) 
+  
     
   ctr <- ctr + 1
 }
