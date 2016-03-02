@@ -11,17 +11,17 @@ bgimg <- rasterGrob(img, interpolate=TRUE)
 df <- read.csv("data/placelist.csv", header=TRUE, colClasses=c("character", "character",rep("numeric", 29)))
 
 # Exploratory Stuff
-# baseplot <- ggplot(data = df, aes(x = X+OffsetX, y = Y+OffsetY)) +
-#   annotation_custom(bgimg, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf) +
-#   xlim(0,2000) +
-#   ylim(0,2000) +
-#   theme(axis.text.y = element_blank(), axis.text.x = element_blank(),
-#         axis.title = element_blank(), axis.title.x = element_blank())
-# 
-# baseplot + geom_point() +
-#   geom_text(aes(label = Text), size=3, hjust=-0.2, vjust=0.35)
-# 
-# 
+baseplot <- ggplot(data = df, aes(x = X+OffsetX, y = Y+OffsetY)) +
+  annotation_custom(bgimg, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf) +
+  xlim(0,2000) +
+  ylim(0,2000) +
+  theme(axis.text.y = element_blank(), axis.text.x = element_blank(),
+        axis.title = element_blank(), axis.title.x = element_blank())
+ 
+baseplot + geom_point(color="#EF8000", size=8, shape=20, alpha=0.7)
+ggsave("AllStalls.jpg", path = "output",
+       scale = 1, width = 25.3, height = 30, units ="cm", dpi = 150) 
+
 # baseplot +
 #   geom_point(aes(color="#4466DD"), size=48, shape=20, alpha=0.3, show_guide=FALSE) +
 #   geom_point(aes(color="#e22233"), size=24, shape=20, alpha=0.4, show_guide=TRUE) +
