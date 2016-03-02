@@ -59,17 +59,18 @@ for(hour in (startHour:(startHour+23)%%24)){
           axis.title = element_blank(), axis.title.x = element_blank())
   
   positionsplot <- baseplotHour +
-    geom_point(aes(color="#4466DD"), size=56, shape=20, alpha=0.3, show_guide=FALSE) +
-    geom_point(aes(color="#e22233"), size=28, shape=20, alpha=0.4, show_guide=TRUE) +
+    geom_point(aes(color="#4466DD"), size=70, shape=20, alpha=0.3, show_guide=FALSE) +
+    geom_point(aes(color="#e22233"), size=35, shape=20, alpha=0.4, show_guide=TRUE) +
     scale_color_identity(name = 'Distance Walked in', guide = 'legend',labels = c('2 minutes', '1 minute')) +
     theme(legend.justification=c(0,0), legend.position=c(0,0)) +
+    theme(legend.text = element_text(size = 18), legend.title = element_text(size = 18)) +
     guides(col = guide_legend(reverse = TRUE)) +
-    annotate("text", x = 100, y = 520, label = clockTime, colour = "#5555aa", size=12)
+    annotate("text", x = 120, y = 640, label = clockTime, colour = "#5555aa", size=14)
   
   
   if(sum(currentlyOpen) > 0){
     positionsplot +
-      geom_text(aes(label=Text,  x=X + OffsetX, y=Y + OffsetY), size=3, hjust=0.5, vjust=0.35)
+      geom_text(aes(label=Text,  x=X + OffsetX, y=Y + OffsetY), size=5, hjust=0.5, vjust=0.35)
       # This will not plot on the screen, because it's not in the global scope. If needed, use print() to draw
   } else {
     positionsplot
@@ -78,10 +79,10 @@ for(hour in (startHour:(startHour+23)%%24)){
   #ggsave(paste0("map", ctr, "_", hour*100, ".jpg"), path = "output", 
   #       scale = 1, width = 25.3, height = 30, units ="cm", dpi = 300) 
   
-  ggsave(paste0("map", ctr, ".jpg"), path = "output",
+  ggsave(paste0("map", str_pad(ctr, 2, "left", "0"), ".bmp"), path = "output",
          scale = 1, width = 25.3, height = 30, units ="cm", dpi = 150) 
 
-  ggsave(paste0("map", ctr, ".png"), path = "output",
+  ggsave(paste0("map", str_pad(ctr, 2, "left", "0"), ".png"), path = "output",
          scale = 1, width = 25.3, height = 30, units ="cm", dpi = 150) 
   
     
